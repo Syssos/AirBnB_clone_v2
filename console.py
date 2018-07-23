@@ -37,14 +37,38 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         '''
             Create a new instance of class BaseModel and saves it
+
             to the JSON file.
         '''
+        integer = {"number_bathrooms", "number_rooms",
+                   "max_guest", "price_by_night"}
+        floats = {"longitude", "latitude"}
+        lists = {"amenity_ids"}
+
         if len(args) == 0:
             print("** class name missing **")
             return
         try:
             args = shlex.split(args)
             new_instance = eval(args[0])()
+            for each in args[1:]:
+                key = each.split("=")[0]
+                val = each.split("=")[1]
+
+                if "_" in val:
+                    words = val.split("_")
+                    string = " ".join(words)
+                    val = string
+
+                if key in (integer):
+                    val = int(val)
+                elif key in (floats):
+                    val = float(val)
+                elif key in (lists):
+                    val = list(val)
+
+                new_instance.__dict__[key] = value
+
             new_instance.save()
             print(new_instance.id)
 
