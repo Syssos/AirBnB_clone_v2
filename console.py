@@ -67,7 +67,7 @@ class HBNBCommand(cmd.Cmd):
                 elif key in (lists):
                     val = list(val)
 
-                new_instance.__dict__[key] = value
+                new_instance.__dict__[key] = val
 
             new_instance.save()
             print(new_instance.id)
