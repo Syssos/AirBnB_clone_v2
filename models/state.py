@@ -3,7 +3,10 @@
     Implementation of the State class
 '''
 
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from models.city import City
+from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 
 
 class State(BaseModel):
