@@ -15,15 +15,17 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-classes={
-        "BaseModel": BaseModel,
-        "User": User,
-        "Place": Place,
-        "State": State,
-        "City": City,
-        "Amenity": Amenity,
-        "Review": Review
+classes = {
+
+    "BaseModel": BaseModel,
+    "User": User,
+    "Place": Place,
+    "State": State,
+    "City": City,
+    "Amenity": Amenity,
+    "Review": Review
 }
+
 
 class HBNBCommand(cmd.Cmd):
     '''
@@ -55,12 +57,12 @@ class HBNBCommand(cmd.Cmd):
             return
         try:
             args = shlex.split(args)
-            new_dict={}
+            new_dict = {}
             for each in args[1:]:
                 key = each.split("=")
                 new_dict[key[0]] = key[1]
 
-            new_instance = classes[(args[0])]()    
+            new_instance = classes[(args[0])]()
             for x, val in new_dict.items():
                 if "_" in val:
                     val = val.replace("_", " ")
@@ -217,7 +219,7 @@ class HBNBCommand(cmd.Cmd):
             return
         for key, val in objects.items():
             if len(args) != 0:
-                if type(val) is eval(args):
+                if isinstance(val, eval(args)):
                     obj_list.append(val)
             else:
                 obj_list.append(val)
@@ -237,7 +239,7 @@ class HBNBCommand(cmd.Cmd):
             cmd_arg = args[0] + " " + args[2]
             func = functions[args[1]]
             func(cmd_arg)
-        except:
+        except BaseException:
             print("*** Unknown syntax:", args[0])
 
 
@@ -246,4 +248,3 @@ if __name__ == "__main__":
         Entry point for the loop.
     '''
     HBNBCommand().cmdloop()
-
