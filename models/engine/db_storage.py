@@ -3,6 +3,7 @@
     This is the database storage
 """
 import models
+from models.base_model import Base
 from models import City, State, User, Place, Amenity, Review
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
