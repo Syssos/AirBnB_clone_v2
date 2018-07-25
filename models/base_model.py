@@ -10,13 +10,14 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class BaseModel:
     '''
         Base class for other classes to be used for the duration.
     '''
-    id = Column(String(60)), nullable=False, primary_key=True)
+    id = Column(String(60), nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-    updated_at = Column(DateTime, nnullable=False, default=datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         '''
@@ -27,16 +28,22 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
-        else:
+        if "created_at" in kwargs:
             kwargs["created_at"] = datetime.strptime(kwargs["created_at"],
                                                      "%Y-%m-%dT%H:%M:%S.%f")
+        else:
+            self.created_at = datetime.now()
+
+        if "updated_at" in kwargs:
             kwargs["updated_at"] = datetime.strptime(kwargs["updated_at"],
                                                      "%Y-%m-%dT%H:%M:%S.%f")
-            for key, val in kwargs.items():
-                if "__class__" not in key:
-                    setattr(self, key, val)
+        else:
+            self.updated_at = datetime.now()
 
-                else:
+        for key, val in kwargs.items():
+            if "__class__" not in key:
+                setattr(self, key, val)
+
     def __str__(self):
         '''
             Return string representation of BaseModel class
@@ -72,7 +79,6 @@ class BaseModel:
             del cp_dct["_sa_instance_state"]
 
         return (cp_dct)
-
 
     def delete(self):
         '''
