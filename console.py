@@ -87,7 +87,6 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 1:
             print("** instance id missing **")
             return
-        storage = FileStorage()
         storage.reload()
         obj_dict = storage.all()
         try:
@@ -116,7 +115,6 @@ class HBNBCommand(cmd.Cmd):
             return
         class_name = args[0]
         class_id = args[1]
-        storage = FileStorage()
         storage.reload()
         obj_dict = storage.all()
         try:
@@ -133,11 +131,10 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         '''
-            Prints all string representation of all instances
-            based or not on the class name.
+        Prints all string representation of all instances
+        based or not on the class name.
         '''
         obj_list = []
-        storage = FileStorage()
         storage.reload()
         objects = storage.all()
         try:
@@ -157,10 +154,9 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, args):
         '''
-            Update an instance based on the class name and id
-            sent as args.
+        Update an instance based on the class name and id
+        sent as args.
         '''
-        storage = FileStorage()
         storage.reload()
         args = shlex.split(args)
         if len(args) == 0:
@@ -206,7 +202,6 @@ class HBNBCommand(cmd.Cmd):
             Counts/retrieves the number of instances.
         '''
         obj_list = []
-        storage = FileStorage()
         storage.reload()
         objects = storage.all()
         try:
