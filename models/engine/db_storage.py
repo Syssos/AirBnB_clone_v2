@@ -12,7 +12,7 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy import Column, Integer, String
 from os import getenv
 
-objects = [City, State, User, Place, Amenity, Review]
+objects = [City, State]
 
 
 class DBStorage:
@@ -40,7 +40,7 @@ class DBStorage:
             
         sesh = sessionmaker(self.__engine)
         self.__session = sesh()
-        1
+        
     def all(self, cls=None):
         """
         Based on cls run a query for current database objects

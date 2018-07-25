@@ -5,6 +5,7 @@
 import cmd
 import json
 import shlex
+from models import storage
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 from models.user import User
@@ -14,6 +15,15 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+classes={
+        "BaseModel": BaseModel,
+        "User": User,
+        "Place": Place,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Review": Review
+}
 
 class HBNBCommand(cmd.Cmd):
     '''
@@ -40,39 +50,33 @@ class HBNBCommand(cmd.Cmd):
 
             to the JSON file.
         '''
-        integer = {"number_bathrooms", "number_rooms",
-                   "max_guest", "price_by_night"}
-        floats = {"longitude", "latitude"}
-        lists = {"amenity_ids"}
-
         if len(args) == 0:
             print("** class name missing **")
             return
         try:
             args = shlex.split(args)
-            new_instance = eval(args[0])()
+            new_dict={}
             for each in args[1:]:
-                key = each.split("=")[0]
-                val = each.split("=")[1]
+                key = each.split("=")
+                new_dict[key[0]] = key[1]
 
+            new_instance = classes[(args[0])]()    
+            for x, val in new_dict.items():
                 if "_" in val:
-                    words = val.split("_")
-                    string = " ".join(words)
-                    val = string
-
-                if key in (integer):
-                    val = int(val)
-                elif key in (floats):
-                    val = float(val)
-                elif key in (lists):
-                    val = list(val)
-
+                    val = val.replace("_", " ")
+                else:
+                    try:
+                        val = eval(val)
+                    except BaseException:
+                        pass
+                    if hasattr(new_instance, x):
+                        setattr(new_instance, x, val)
                 new_instance.__dict__[key] = val
 
             new_instance.save()
             print(new_instance.id)
 
-        except:
+        except Exception as e:
             print("** class doesn't exist **")
 
     def do_show(self, args):
@@ -87,6 +91,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 1:
             print("** instance id missing **")
             return
+
         storage.reload()
         obj_dict = storage.all()
         try:
@@ -145,7 +150,7 @@ class HBNBCommand(cmd.Cmd):
             return
         for key, val in objects.items():
             if len(args) != 0:
-                if type(val) is eval(args):
+                if isinstance(val, eval(args)):
                     obj_list.append(val)
             else:
                 obj_list.append(val)
@@ -241,3 +246,4 @@ if __name__ == "__main__":
         Entry point for the loop.
     '''
     HBNBCommand().cmdloop()
+
