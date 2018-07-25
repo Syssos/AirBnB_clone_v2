@@ -25,7 +25,7 @@ class DBStorage:
         """
             Initializing public instance
         """
-        self.engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
             getenv("HBNB_MYSQL_USER"),
             getenv("HBNB_MYSQL_PWD"),
             getenv("HBNB_MYSQL_HOST"),
@@ -50,9 +50,8 @@ class DBStorage:
         else:
             for option in objects:
                 for var in self.__session.query(option):
-                    key = str(selection.__class__.__name__) + "." + str(
-                        selection.id)
-                    dictionary[key] = selection
+                    key = str(var.__class__.__name__) + "." + str(var.id)
+                    dictionary[key] = var
         return dictionary
 
     def new(self, obj):
