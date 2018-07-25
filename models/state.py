@@ -15,8 +15,9 @@ class State(BaseModel):
     '''
     __tablename__ = "states"
 
-    name = Column((String(128)), nullable=False)
-    cities = relationship("City", backref="state", cascade="all, delete-orphan")
+    name = Column(String(128), nullable=False)
+    cities = relationship("City",
+                          backref="state", cascade="all, delete-orphan")
 
     @property
     def cities(self):
@@ -24,8 +25,9 @@ class State(BaseModel):
             This script will get all the City values
 
         '''
-        listofcities = models.storage.all("City").values()
+        listofcities = []
 
         for city in listofcities:
             if city.state_id == self.id:
-                return city
+                listofcities.append(city)
+        return city
