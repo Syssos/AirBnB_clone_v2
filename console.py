@@ -131,8 +131,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         '''
-            Prints all string representation of all instances
-            based or not on the class name.
+        Prints all string representation of all instances
+        based or not on the class name.
         '''
         obj_list = []
         storage.reload()
@@ -154,8 +154,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, args):
         '''
-            Update an instance based on the class name and id
-            sent as args.
+        Update an instance based on the class name and id
+        sent as args.
         '''
         storage.reload()
         args = shlex.split(args)
