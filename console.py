@@ -20,7 +20,7 @@ class HBNBCommand(cmd.Cmd):
         Contains the entry point of the command interpreter.
     '''
 
-    prompt = ("(hbnb) ")
+    prompt = ("(hbnb) \n")
 
     def do_quit(self, args):
         '''
