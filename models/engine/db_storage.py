@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """
-    This is the database storage
+This is the database storage
 """
 import models
 from models.base_model import Base
+from models.base_model import BaseModel
 from models import City, State, User, Place, Amenity, Review
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -16,7 +17,7 @@ objects = [City, State, User, Place, Amenity, Review]
 
 class DBStorage:
     """
-        This is the datbase storage where we will create a new engine
+    This is the datbase storage where we will create a new engine
     """
     __engine = None
     __session = None
@@ -32,17 +33,22 @@ class DBStorage:
             getenv("HBNB_MYSQL_DB")),
             pool_pre_ping=True)
 
+        Base.metadata.create_all(self.__engine)
+
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
-
+            
+        sesh = sessionmaker(self.__engine)
+        self.__session = sesh()
+        1
     def all(self, cls=None):
         """
-            Based on cls run a query for current database objects
+        Based on cls run a query for current database objects
         """
         dictionary = {}
 
         if cls:
-            for selection in self.__session.query(cls):
+            for selection in self.__session.query(cls).all():
                 key = str(selection.__class__.__name__) + "." + str(selection.
                                                                     id)
                 dictionary[key] = selection
@@ -56,9 +62,8 @@ class DBStorage:
 
     def new(self, obj):
         """
-            This will add an object to the current
-            database session
-
+        This will add an object to the current
+        database session
         """
         self.__session.add(obj)
 
