@@ -73,12 +73,11 @@ class HBNBCommand(cmd.Cmd):
                         pass
                     if hasattr(new_instance, x):
                         setattr(new_instance, x, val)
-                new_instance.__dict__[key] = val
+                new_instance.__dict__[x] = val
 
             new_instance.save()
             print(new_instance.id)
-
-        except Exception as e:
+        except:
             print("** class doesn't exist **")
 
     def do_show(self, args):
