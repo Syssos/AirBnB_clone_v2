@@ -12,7 +12,7 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy import Column, Integer, String
 from os import getenv
 
-objects = [City, State]
+objects = [City, State, User]
 
 
 class DBStorage:
