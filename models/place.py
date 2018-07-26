@@ -46,7 +46,7 @@ class Place(BaseModel, Base):
         '''
         reviews = models.storage.all("Reviews").values()
         for obj in reviews:
-            if obj.place_id == self.id]:
+            if obj.place_id == self.id:
                 return obj
 
     if getenv("HBNB_TYPE_STORAGE") == "FileStorage":
