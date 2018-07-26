@@ -58,7 +58,7 @@ class Place(BaseModel, Base):
             amenities = models.storage.all("Amenities").values()
             for obj in amenities:
                 if obj.amenity_id == self.id:
-                     return obj
+                    return obj
 
         @amenities.setter
         def amenities(self, obj):
