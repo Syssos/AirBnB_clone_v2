@@ -15,21 +15,19 @@ class TestBase(unittest.TestCase):
     Testing the base class model.
     '''
     @classmethod
-    
     def setUpClass(cls):
         '''
         Initializing instance for class
         '''
         cls.my_model = BaseModel()
         cls.my_model.name = "Cody"
-        
 
     def test_id_type(self):
         '''
         Checks that the type of the id is string.
         '''
         self.assertEqual("<class 'str'>", str(type(self.my_model.id)))
-        
+
     def test_ids_differ(self):
         '''
         Checks that the ids between two instances are different.
@@ -42,7 +40,7 @@ class TestBase(unittest.TestCase):
         Checks that an attribute can be added.
         '''
         self.assertEqual("Cody", self.my_model.name)
-    
+
     def test_a_updated_created_equal(self):
         '''
         Checks that both dates are equal.
@@ -58,6 +56,7 @@ class TestBase(unittest.TestCase):
         my_model_dict = self.my_model.to_dict()
         new_model = BaseModel(my_model_dict)
         self.assertNotEqual(self.my_model, new_model)
+
     def test_save(self):
         '''
             Checks that after updating the instance; the dates differ in the
