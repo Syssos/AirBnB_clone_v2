@@ -46,7 +46,6 @@ class test_console(unittest.TestCase):
         '''
         Testing that show exists
         '''
-
         '''
         console = self.create()
         console.onecmd("create User")
