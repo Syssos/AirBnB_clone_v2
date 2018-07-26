@@ -45,7 +45,9 @@ class Place(BaseModel, Base):
             This will get values of the reviews
         '''
         reviews = models.storage.all("Reviews").values()
-        return [obj for obj in review_items if obj.place_id == self.id]
+        for obj in reviews:
+            if obj.place_id == self.id]:
+                return obj
 
     if getenv("HBNB_TYPE_STORAGE") == "FileStorage":
         @property
@@ -54,7 +56,10 @@ class Place(BaseModel, Base):
                 Getting values for amenities
             '''
             amenities = models.storage.all("Amenities").values()
-            return [obj for obj in amenity_items if obj.amenity_id == self.id]
+            for obj in amenities:
+                if obj.amenity_id == self.id:
+                     return obj
+
         @amenities.setter
         def amenities(self, obj):
             '''
