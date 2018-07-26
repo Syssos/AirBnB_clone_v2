@@ -33,14 +33,11 @@ class DBStorage:
             getenv("HBNB_MYSQL_DB")),
             pool_pre_ping=True)
 
-        Base.metadata.create_all(self.__engine)
 
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
-            
-        sesh = sessionmaker(self.__engine)
-        self.__session = sesh()
-        
+
+
     def all(self, cls=None):
         """
         Based on cls run a query for current database objects
