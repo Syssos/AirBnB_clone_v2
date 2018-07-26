@@ -12,7 +12,7 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy import Column, Integer, String
 from os import getenv
 
-objects = [City, State, User, Place, Review]
+objects = [City, State, User, Place, Review, Amenity]
 
 
 class DBStorage:
@@ -33,10 +33,8 @@ class DBStorage:
             getenv("HBNB_MYSQL_DB")),
             pool_pre_ping=True)
 
-
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
-
 
     def all(self, cls=None):
         """
