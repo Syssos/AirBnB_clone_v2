@@ -4,7 +4,7 @@
 '''
 
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, Foreign
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 
