@@ -3,8 +3,18 @@
     Define the class Place.
 '''
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, ForeignKey, Float
+import models
+from os import getenv
+from sqlalchemy import DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
+
+place_amenity = Table("place_amenity", Base.metadata,
+                      Column("place_id", String(60), ForeignKey("places.id"),
+                             primary_key=True, nullable=False),
+                      Column("amenity_id", String(60),
+                             ForeignKey("amenities.id"), primary_key=True,
+                             nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -24,3 +34,34 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     amenity_ids = []
+    reviews = relationship("Review", backref="place",
+                           cascade="all, delete-orphan")
+
+    @property
+    def reviews(self):
+        '''
+            This will get values of the reviews
+        '''
+        reviews = models.storage.all("Reviews").values()
+        for obj in reviews:
+            if obj.place_id == self.id:
+                return obj
+
+    if getenv("HBNB_TYPE_STORAGE") == "FileStorage":
+        @property
+        def reviews(self):
+            '''
+                Getting values for amenities
+            '''
+            amenities = models.storage.all("Amenities").values()
+            for obj in amenities:
+                if obj.amenity_id == self.id:
+                    return obj
+
+        @amenities.setter
+        def amenities(self, obj):
+            '''
+                This will set the attributes
+            '''
+            if isinstance(obj, Amenity):
+                self.amenity_ids.append(obj.id)
