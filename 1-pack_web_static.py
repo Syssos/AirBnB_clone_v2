@@ -3,8 +3,8 @@ from fabric.api import local, put, env
 from datetime import datetime
 from os import stat
 
-
 env.hosts = ['localhost']
+
 
 def do_pack():
     var = datetime.now()
