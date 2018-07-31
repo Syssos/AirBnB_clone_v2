@@ -12,7 +12,7 @@ def do_pack():
     f = "web_static_{}{}{}{}{}{}.tgz".format(var.year, var.month, var.day,
                                            var.hour, var.minute, var.second)
     local("mkdir -p versions")
-    local("tar -cvzf versions/{} web_static".format(f))
+    path = local("tar -cvzf versions/{} web_static".format(f))
     print("web_static packed: versions/{} -> {}"
           .format(f, stat('versions/' + f).st_size))
 
@@ -37,7 +37,6 @@ def do_deploy(archive_path):
         run("rm -rf /data/web_static/current")
         run("ln -s /data/web_static/releases/{}/ /data/web_static/current"
             .format(name))
-        print("New version deployed")
         return(True)
 
     except Exception as e:
@@ -46,7 +45,8 @@ def do_deploy(archive_path):
 def deploy():
     try:
         archive_path = do_pack()
-        return do_deploy(archive_path)
-    
+        var = do_deploy(archive_path)
+        return var
+
     except BaseException:
         return False
