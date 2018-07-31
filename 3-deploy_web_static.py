@@ -16,7 +16,7 @@ def do_pack():
     print("web_static packed: versions/{} -> {}"
           .format(f, stat('versions/' + f).st_size))
 
-    return "versions/{}".format(filename)
+    return "versions/{}".format(f)
 
 def do_deploy(archive_path):
 
