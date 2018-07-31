@@ -1,28 +1,17 @@
 #!/usr/bin/python3
-from fabric.api import local, put, env
+from fabric.api import local, put, env, run
 from datetime import datetime
-from os import stat
+from os import path, stat
 
 env.hosts = ['35.190.149.202', '104.196.47.38']
 env.user = 'ubuntu'
-
-
-def do_pack():
-    var = datetime.now()
-    f = "web_static_{}{}{}{}{}.tgz".format(var.year, var.month, var.day,
-                                           var.minute, var.second)
-    local("mkdir -p versions")
-    local("tar -cvzf versions/{} web_static".format(f))
-    print("web_static packed: versions/{} -> {}"
-          .format(f, stat('versions/' + f).st_size))
 
 
 def do_deploy(archive_path):
 
     if not archive_path:
         return(False)
-    n = archive_path.split('/')[1]
-    name = n.split('.')[0]
+    name = archive_path.split('/')[1]
 
     try:
         put(archive_path, '/tmp/')
