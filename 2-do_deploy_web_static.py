@@ -3,7 +3,8 @@ from fabric.api import local, put, env
 from datetime import datetime
 from os import stat
 
-env.hosts = ['localhost']
+env.hosts = ['35.190.149.202', '104.196.47.38']
+env.user = 'ubuntu'
 
 
 def do_pack():
@@ -15,14 +16,17 @@ def do_pack():
     print("web_static packed: versions/{} -> {}"
           .format(f, stat('versions/' + f).st_size))
 
+
 def do_deploy(archive_path):
 
     if not archive_path:
         return(False)
-    name = archive_path.split('/')[1]
+    n = archive_path.split('/')[1]
+    name = n.split('.')[0]
+
     try:
         put(archive_path, '/tmp/')
-        run("mkdir -p /data/web_static/releases/{}".format(name))
+        run('mkdir -p /data/web_static/releases/{}'.format(name))
         run("tar -xzf /tmp/{} -C /data/web_static/releases/{}"
             .format(name, name))
         run("rm /tmp/{}".format(name))
